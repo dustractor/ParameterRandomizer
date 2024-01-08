@@ -99,7 +99,7 @@ def OnMidiMsg(event):
                         L = plugins.getParamCount(t,s)
                         for i in range(L):
                             paramname = plugins.getParamName(i,t,s)
-                            print("i,paramname:",i,paramname)
+                            print(i,paramname)
                 elif generator_is_selected():
                     if plugins.isValid(f_id):
                         name = plugins.getPluginName(f_id,-1,1)
@@ -107,6 +107,6 @@ def OnMidiMsg(event):
                         L = plugins.getParamCount(f_id)
                         for i in range(L):
                             paramname = plugins.getParamName(i,f_id)
-                            print("i,paramname:",i,paramname)
+                            print(i,paramname)
                 event.handled = True
 
