@@ -59,7 +59,7 @@ A generator or effect plugin must have the focus. In other words, the last thing
 
 Press the randomizer pad to randomize the parameters.  By default, all available parameters are randomized.
 
-It may not be desirable to randomize certain parameters, such as a dry/wet knob for example. Two utility functions are available in the Script output window for dealing with this: ``lock(<plugin-name>, <parameter-index>)`` and ``unlock(<parameter-name>, <parameter-index)``.
+It may not be desirable to randomize certain parameters, such as a dry/wet knob for example. Two utility functions are available in the Script output window for dealing with this: ``lock(<plugin-name>, *<parameter-index>)`` and ``unlock(<parameter-name>, *<parameter-index>)``.
 
 The purpose of the Parameter-info pad is to assist with finding these index numbers.
 
