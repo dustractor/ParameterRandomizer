@@ -1,6 +1,8 @@
-# ParameterRandomizer
+# [ParameterRandomizer](https://github.com/dustractor/ParameterRandomizer)
 ---
-[FL Studio MIDI Controller Device Script] Randomize parameters of the focused effect or generator plugin.
+
+
+Randomize parameters of the focused effect or generator plugin.
 
 ## Installation
 

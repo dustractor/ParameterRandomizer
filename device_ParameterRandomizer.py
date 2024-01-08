@@ -4,6 +4,8 @@
     Randomize the parameters of the focused effect or generator plugin.
     version:0.1
     author:dustractor
+    repository: https://github.com/dustractor/ParameterRandomizer
+    tested with FL Studio version 21.2.2[build 3914]
 """
 
 import midi,plugins,ui
