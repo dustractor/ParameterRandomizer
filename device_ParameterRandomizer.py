@@ -2,7 +2,7 @@
 
 """
     Randomize the parameters of the focused effect or generator plugin.
-    version:0.1
+    version:0.2
     author:dustractor
     repository: https://github.com/dustractor/ParameterRandomizer
     tested with FL Studio version 21.2.2[build 3914]
@@ -14,7 +14,7 @@ RANDOMIZER_PAD = 20
 PARAMINFO_PAD = 21
 _SEED = 0
 _LOCK_D = dict()
-
+_IGNORE_NONAMES = True
 channelrack_is_selected = lambda:ui.getFocused(0)
 mixer_is_selected = lambda:ui.getFocused(1)
 effect_is_selected = lambda:ui.getFocused(6)
@@ -51,6 +51,22 @@ def unlock(plugname,*paramindex):
             _LOCK_D[plugname].remove(p)
     print(_LOCK_D)
 
+def ignorenonames(ignore=True):
+    global _IGNORE_NONAMES
+    _IGNORE_NONAMES = ignore
+
+def info():
+    print("-"*40)
+    print("INFO:")
+    print()
+    print("Randomizer pad CC#:",RANDOMIZER_PAD)
+    print("Parameter-info pad CC#:",PARAMINFO_PAD)
+    print()
+    print("Locked parameters:",_LOCK_D)
+    print()
+    print("Ignore No-name parameters:",_IGNORE_NONAMES)
+    print("-"*40)
+
 def OnMidiMsg(event):
     global _SEED
     _M = 2**32
@@ -73,9 +89,16 @@ def OnMidiMsg(event):
                                 if p in params:
                                     params.remove(p)
                         for i in params:
+                            paramname = plugins.getParamName(i,t,s)
+                            if _IGNORE_NONAMES and any((
+                                (not len(paramname)),
+                                paramname.startswith("MIDI CC #"),
+                                paramname.startswith("MIDI Channel "))):
+                                continue
                             _SEED = (_A * _SEED + _C) % _M
                             r = _SEED / _M
                             plugins.setParamValue(r,i,t,s)
+                            print("randomized:",paramname)
                 elif generator_is_selected():
                     if plugins.isValid(f_id):
                         name = plugins.getPluginName(f_id,-1,1)
@@ -86,9 +109,16 @@ def OnMidiMsg(event):
                                 if p in params:
                                     params.remove(p)
                         for i in params:
+                            paramname = plugins.getParamName(i,f_id)
+                            if _IGNORE_NONAMES and any((
+                                (not len(paramname)),
+                                paramname.startswith("MIDI CC #"),
+                                paramname.startswith("MIDI Channel "))):
+                                continue
                             _SEED = (_A * _SEED + _C) % _M
                             r = _SEED / _M
                             plugins.setParamValue(r,i,f_id)
+                            print("randomized:",paramname)
                 event.handled = True
             elif event.data1 == PARAMINFO_PAD:
                 f_id = ui.getFocusedFormID()
