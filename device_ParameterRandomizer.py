@@ -57,15 +57,37 @@ def ignorenonames(ignore=True):
 
 def info():
     print("-"*40)
-    print("INFO:")
-    print()
-    print("Randomizer pad CC#:",RANDOMIZER_PAD)
-    print("Parameter-info pad CC#:",PARAMINFO_PAD)
-    print()
-    print("Locked parameters:",_LOCK_D)
-    print()
-    print("Ignore No-name parameters:",_IGNORE_NONAMES)
+    print(f"""
+INFO:
+    Randomizer pad CC#:{RANDOMIZER_PAD}
+    Parameter-info pad CC#:{PARAMINFO_PAD}
+
+Use the following functions to set:
+    setrandomizerpad(n)
+    setrandomizerpad_hex("n")
+    setparaminfopad(n)
+    setparaminfopad_hex("n")
+    
+Locked parameters:
+    {_LOCK_D}
+
+Manage locked parameters with:
+    lock(<plugin-name>,*<parameter-index>)
+    unlock(<plugin-name>,*<parameter-index>)
+
+Ignore No-name parameters:{_IGNORE_NONAMES}
+    To include no-name (and generic midi) parameters in the randomize,
+    use:
+    ignorenonames(False)
+    or to change it back, use ignorenonames(True)
+    """)
     print("-"*40)
+def isnoname(name):
+    if any(((not len(name)),
+            name.startswith("MIDI CC #"),
+            name.startswith("MIDI Channel "))):
+        return True
+    return False
 
 def OnMidiMsg(event):
     global _SEED
@@ -90,10 +112,7 @@ def OnMidiMsg(event):
                                     params.remove(p)
                         for i in params:
                             paramname = plugins.getParamName(i,t,s)
-                            if _IGNORE_NONAMES and any((
-                                (not len(paramname)),
-                                paramname.startswith("MIDI CC #"),
-                                paramname.startswith("MIDI Channel "))):
+                            if _IGNORE_NONAMES and isnoname(paramname):
                                 continue
                             _SEED = (_A * _SEED + _C) % _M
                             r = _SEED / _M
@@ -110,10 +129,7 @@ def OnMidiMsg(event):
                                     params.remove(p)
                         for i in params:
                             paramname = plugins.getParamName(i,f_id)
-                            if _IGNORE_NONAMES and any((
-                                (not len(paramname)),
-                                paramname.startswith("MIDI CC #"),
-                                paramname.startswith("MIDI Channel "))):
+                            if _IGNORE_NONAMES and isnoname(paramname):
                                 continue
                             _SEED = (_A * _SEED + _C) % _M
                             r = _SEED / _M
@@ -131,7 +147,7 @@ def OnMidiMsg(event):
                         L = plugins.getParamCount(t,s)
                         for i in range(L):
                             paramname = plugins.getParamName(i,t,s)
-                            print(i,paramname)
+                            print(["","*"][isnoname(paramname)],i,paramname)
                 elif generator_is_selected():
                     if plugins.isValid(f_id):
                         name = plugins.getPluginName(f_id,-1,1)
@@ -139,6 +155,6 @@ def OnMidiMsg(event):
                         L = plugins.getParamCount(f_id)
                         for i in range(L):
                             paramname = plugins.getParamName(i,f_id)
-                            print(i,paramname)
+                            print(["","*"][isnoname(paramname)],i,paramname)
                 event.handled = True
 
