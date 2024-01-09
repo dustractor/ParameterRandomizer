@@ -103,6 +103,7 @@ Multiple indices may be supplied, so if you want to lock or unlock a range of pa
 
 *(Note the 12 used as the argument to the range function.  The range yields 12 things -- starting with 0 -- so the last value is 11.  If we had said range(11), then the 'cross' parameter would have remained unlocked.)*
 
+**No-name parameters** are parameters that either don't have a name or have a name that starts with "MIDI CC #" or "MIDI Channel ".  They are ignored by default and shown with an asterisk in the parameter info report.  To change this you may use ``ignorenonames(False)``.  It's best to let the randomizer ignore them because having 4000+ automations tends to slow down FL Studio to a standstill.
 
 ## Final notes
 
