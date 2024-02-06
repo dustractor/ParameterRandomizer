@@ -21,6 +21,7 @@ channelrack_is_selected = lambda:ui.getFocused(0)
 mixer_is_selected = lambda:ui.getFocused(1)
 effect_is_selected = lambda:ui.getFocused(6)
 generator_is_selected = lambda:ui.getFocused(7)
+tempdict = dict()
 
 def setrandomizerpad(n):
     global RANDOMIZER_PAD
