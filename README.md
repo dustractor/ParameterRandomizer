@@ -2,7 +2,7 @@
 ---
 
 
-Randomize parameters of the focused effect or generator plugin.
+Randomize parameters of the focused effect or generator plugin. Also provides the ability to copy and paste parameters from one instance of a plugin to another.
 
 ## Installation
 
@@ -20,7 +20,15 @@ In FL Studio Midi Settings dialog, select the midi controller in the list of inp
 
 ## Configuring which pads to use
 
-By default the CC messages this script responds to are CC# 20 and 21 but you can edit the file to change this, or you may use the following functions to change the assignment on the fly:  ``setrandomizerpad(n)``, ``setrandomizerpad_hex(n)``, ``setparaminfopad(n)``, and ``setparaminfopad_hex(n)``.
+By default the CC messages this script responds to are CC# 20, 21, 22, and 23 but you can edit the file to change this, or you may use the following functions to change the assignment on the fly:
+* ``setrandomizerpad(n)``
+* ``setrandomizerpad_hex(n)``
+* ``setparaminfopad(n)``
+* ``setparaminfopad_hex(n)``
+* ``setcopypad(n)``
+* ``setcopypad_hex(n)``
+* ``setpastepad(n)``
+* ``setpastepad_hex(n)``
 
 The value for *n* should be quoted for the hex variants.
 
@@ -110,3 +118,5 @@ Multiple indices may be supplied, so if you want to lock or unlock a range of pa
 1. The plugin name shown in the Parameter-info output and supplied to the lock and unlock functions is the plugins "user" name, not the constant plugin name. In other words, if you rename the plugin, the locked parameters will no longer refer to that plugin!
 
 2. Be sure to save your file before using these functions.  Pressing the pads too many times in quick succession can crash the application.
+3. For plugins inside of patcher, have the patcher window selected, not the detached window containing the actual plugin.  Also, the parameters must be activated in order to be visible to the script.
+
